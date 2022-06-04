@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -15,6 +16,8 @@ export default function LocationInfo({
     nextStep: Function;
     prevStep: React.MouseEventHandler;
 }) {
+    const [same, setSame] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -22,6 +25,7 @@ export default function LocationInfo({
     } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
+        if (data.from === data.to) return setSame(true);
         getLocationInfo(data);
         nextStep();
     };
@@ -51,7 +55,9 @@ export default function LocationInfo({
                 <select
                     className="w-full"
                     id="to"
-                    {...register("to", { required: true })}
+                    {...register("to", {
+                        required: true
+                    })}
                 >
                     <option value=""></option>
                     <option value="東京">東京</option>
@@ -60,7 +66,7 @@ export default function LocationInfo({
                     <option value="大阪">大阪</option>
                 </select>
             </div>
-
+            {same && <span>From and To cannot be the same</span>}
             {errors.from && errors.to && <span>This field is required</span>}
 
             <div className="mt-5 flex justify-between">
