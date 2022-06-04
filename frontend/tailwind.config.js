@@ -4,7 +4,13 @@ module.exports = {
         "./components/**/*.{js,ts,jsx,tsx}"
     ],
     theme: {
-        extend: {}
+        extend: {
+            container: {
+                breakpoint: {
+                    xl: "1440px"
+                }
+            }
+        }
     },
     plugins: []
 };
