@@ -41,6 +41,7 @@ export default function LocationInfo({
                     type="date"
                     placeholder="date"
                     {...register("date", {
+                        required: true,
                         value: new Date().toISOString().split("T")[0]
                     })}
                 />
@@ -56,6 +57,7 @@ export default function LocationInfo({
                     type="time"
                     placeholder="time"
                     {...register("time", {
+                        required: true,
                         value: new Date().toISOString().slice(11, -8)
                     })}
                 />

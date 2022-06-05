@@ -3,9 +3,10 @@ import type { NextPage } from "next";
 import PersonalInfo from "../components/form/PersonalInfo";
 import LocationInfo from "../components/form/LocationInfo";
 import TimeInfo from "../components/form/TimeInfo";
+import Amount from "../components/form/Amount";
 
 const Home: NextPage = () => {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(4);
 
     const nextStep = () => setStep(step + 1);
     const prevStep = () => setStep(step - 1);
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
     const personalInfoHandler = (data: {}) => console.log(data);
     const locationInfoHandler = (data: {}) => console.log(data);
     const timeInfoHandler = (data: {}) => console.log(data);
+    const amountHandler = (data: {}) => console.log(data);
 
     switch (step) {
         case 1:
@@ -34,6 +36,14 @@ const Home: NextPage = () => {
             return (
                 <TimeInfo
                     getTimeInfo={timeInfoHandler}
+                    nextStep={nextStep}
+                    prevStep={prevStep}
+                />
+            );
+        case 4:
+            return (
+                <Amount
+                    getAmount={amountHandler}
                     nextStep={nextStep}
                     prevStep={prevStep}
                 />
