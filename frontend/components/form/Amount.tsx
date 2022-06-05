@@ -15,6 +15,7 @@ export default function Amount({
 
     useEffect(() => {
         const parsedAmount = decrypt("amount");
+        if (!parsedAmount) return;
         setData(parsedAmount);
     }, []);
 
