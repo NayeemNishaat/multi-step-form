@@ -17,6 +17,8 @@ ReactJs, NextJs, Typescript, TailwindCSS
 3. Now build the backend by using `npm run build`
 4. Finally start the server through `npm start`
 
+### Note: Because of some security issues unfortunately I can not share my MongoDB connection string publicly. So, you will need to use you own MongoDB connection string!
+
 ## Frontend
 
 1. Install dependencies via `npm ci`
