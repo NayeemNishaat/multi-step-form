@@ -16,6 +16,7 @@ ReactJs, NextJs, Typescript, TailwindCSS
 2. Set .env file. Example is provided in .env.example file.
 3. Now build the backend by using `npm run build`
 4. Finally start the server through `npm start`
+Note: Because of some security issues unfortunately I can not share my MongoDB connection string. So, you will need to use you own MongoDB connection string!
 
 ## Frontend
 
