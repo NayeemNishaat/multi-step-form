@@ -12,7 +12,9 @@ export default function Amount({
     const [error, setError] = useState(false);
     const [data, setData] = useState({ amount: "0" });
 
-    const onSubmit = () => {
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
         if (data.amount.toString().replaceAll(",", "").length > 8)
             return setError(true);
 

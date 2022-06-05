@@ -35,7 +35,7 @@ export default function LocationInfo({
                     Note
                 </label>
                 <textarea
-                    className="w-full"
+                    className="w-full border"
                     id="note"
                     rows={10}
                     {...register("note", {

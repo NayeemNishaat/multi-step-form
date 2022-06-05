@@ -58,7 +58,11 @@ export default function LocationInfo({
                     placeholder="time"
                     {...register("time", {
                         required: true,
-                        value: new Date().toISOString().slice(11, -8)
+                        value: new Date()
+                            .toLocaleString(navigator.language, {
+                                hour12: false
+                            })
+                            .slice(10, -3)
                     })}
                 />
             </div>

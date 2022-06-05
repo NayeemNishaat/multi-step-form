@@ -1,9 +1,4 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-
-type Inputs = {
-    note: string;
-};
 
 export default function Overview({
     setOverview,
@@ -14,19 +9,34 @@ export default function Overview({
     nextStep: Function;
     prevStep: React.MouseEventHandler;
 }) {
-    const { handleSubmit } = useForm<Inputs>();
-
     const data = setOverview();
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        nextStep();
+    const onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const res = await fetch(
+                "http://localhost:5000/api/v1/booking/create-booking",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }
+            );
+            const receivedData = await res.json();
+
+            if (receivedData.status === "success")
+                return nextStep(7, receivedData.id);
+            throw new Error(receivedData.message);
+        } catch (err: any) {
+            nextStep(8, err.message);
+        }
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mx-auto max-w-sm py-10 text-left"
-        >
+        <form onSubmit={onSubmit} className="mx-auto max-w-sm py-10 text-left">
             <div className="capitalize">
                 Name: {data.name}
                 <br />

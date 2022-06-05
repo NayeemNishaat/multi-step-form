@@ -6,6 +6,8 @@ import TimeInfo from "../components/form/TimeInfo";
 import Amount from "../components/form/Amount";
 import Note from "../components/form/Note";
 import Overview from "../components/form/Overview";
+import Success from "../components/form/Success";
+import Fail from "../components/form/Fail";
 
 interface data {
     name: string;
@@ -19,7 +21,8 @@ interface data {
 }
 
 const Home: NextPage = () => {
-    const [step, setStep] = useState(6);
+    const [msg, setMsg] = useState("");
+    const [step, setStep] = useState(1);
     const [data, setData] = useState<data>({
         name: "",
         gender: "",
@@ -31,7 +34,14 @@ const Home: NextPage = () => {
         note: ""
     });
 
-    const nextStep = () => setStep(step + 1);
+    const nextStep = (currentStep: number, msg: string) => {
+        if (currentStep) {
+            setMsg(msg);
+            setStep(currentStep);
+            return;
+        }
+        setStep(step + 1);
+    };
     const prevStep = () => setStep(step - 1);
 
     const personalInfoHandler = (personinfo: {}) =>
@@ -101,6 +111,10 @@ const Home: NextPage = () => {
                     prevStep={prevStep}
                 />
             );
+        case 7:
+            return <Success id={msg} nextStep={nextStep} />;
+        case 8:
+            return <Fail msg={msg} nextStep={nextStep} />;
 
         default:
             return <></>;

@@ -38,7 +38,7 @@ export default function LocationInfo({
             <div>
                 <label htmlFor="from">From</label>
                 <select
-                    className="w-full"
+                    className="w-full border"
                     id="from"
                     {...register("from", { required: true })}
                 >
@@ -53,7 +53,7 @@ export default function LocationInfo({
             <div>
                 <label htmlFor="to">To</label>
                 <select
-                    className="w-full"
+                    className="w-full border"
                     id="to"
                     {...register("to", {
                         required: true
