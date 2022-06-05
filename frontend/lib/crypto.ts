@@ -3,7 +3,7 @@ import CryptoJS from "crypto-js";
 export const encrypt = (data: any, dataType: string) => {
     const encryptedData = CryptoJS.AES.encrypt(
         JSON.stringify(data),
-        "secret"
+        process.env.NEXT_PUBLIC_SECRET as string
     ).toString();
 
     localStorage.setItem(dataType, encryptedData);
