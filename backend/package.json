@@ -1,8 +1,8 @@
 {
-	"name": "dist-cert",
+	"name": "backend-multipart-form",
 	"version": "1.0.0",
-	"description": "A certificate distribution system",
-	"main": "index.js",
+	"description": "Backend for multipart form data",
+	"main": "server.js",
 	"scripts": {
 		"dev": "nodemon src/server.ts",
 		"start": "node dist/server.js",
@@ -11,7 +11,7 @@
 	"keywords": [
 		"NodeJs",
 		"ExpressJs",
-		"MySql"
+		"MongoDB"
 	],
 	"author": "Nayeem",
 	"license": "MIT",

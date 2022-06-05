@@ -16,7 +16,7 @@ export const decrypt = (dataType: string) => {
 
     const decryptedData = CryptoJS.AES.decrypt(
         localStorage.getItem(dataType)!,
-        "secret"
+        process.env.NEXT_PUBLIC_SECRET as string
     ).toString(CryptoJS.enc.Utf8);
 
     return JSON.parse(decryptedData);
