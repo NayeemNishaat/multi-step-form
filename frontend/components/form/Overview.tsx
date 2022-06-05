@@ -27,8 +27,12 @@ export default function Overview({
             );
             const receivedData = await res.json();
 
-            if (receivedData.status === "success")
+            if (receivedData.status === "success") {
+                localStorage.removeItem("locationInfo");
+                localStorage.removeItem("personalInfo");
+                localStorage.removeItem("amount");
                 return nextStep(7, receivedData.id);
+            }
             throw new Error(receivedData.message);
         } catch (err: any) {
             nextStep(8, err.message);
