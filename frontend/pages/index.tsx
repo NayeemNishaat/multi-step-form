@@ -4,17 +4,54 @@ import PersonalInfo from "../components/form/PersonalInfo";
 import LocationInfo from "../components/form/LocationInfo";
 import TimeInfo from "../components/form/TimeInfo";
 import Amount from "../components/form/Amount";
+import Note from "../components/form/Note";
+import Overview from "../components/form/Overview";
+
+interface data {
+    name: string;
+    gender: string;
+    from: string;
+    to: string;
+    date: string;
+    time: string;
+    amount: string;
+    note: string;
+}
 
 const Home: NextPage = () => {
-    const [step, setStep] = useState(4);
+    const [step, setStep] = useState(6);
+    const [data, setData] = useState<data>({
+        name: "",
+        gender: "",
+        from: "",
+        to: "",
+        date: "",
+        time: "",
+        amount: "",
+        note: ""
+    });
 
     const nextStep = () => setStep(step + 1);
     const prevStep = () => setStep(step - 1);
 
-    const personalInfoHandler = (data: {}) => console.log(data);
-    const locationInfoHandler = (data: {}) => console.log(data);
-    const timeInfoHandler = (data: {}) => console.log(data);
-    const amountHandler = (data: {}) => console.log(data);
+    const personalInfoHandler = (personinfo: {}) =>
+        setData({ ...data, ...personinfo });
+    const locationInfoHandler = (locationInfo: {}) =>
+        setData({ ...data, ...locationInfo });
+    const timeInfoHandler = (timeInfo: {}) => setData({ ...data, ...timeInfo });
+    const amountHandler = (amountInfo: {}) =>
+        setData({ ...data, ...amountInfo });
+    const noteHandler = (noteInfo: {}) => setData({ ...data, ...noteInfo });
+    const overviewHandler = () => ({
+        name: data.name,
+        gender: data.gender,
+        from: data.from,
+        to: data.to,
+        date: data.date,
+        time: data.time,
+        amount: data.amount,
+        note: data.note
+    });
 
     switch (step) {
         case 1:
@@ -44,6 +81,22 @@ const Home: NextPage = () => {
             return (
                 <Amount
                     getAmount={amountHandler}
+                    nextStep={nextStep}
+                    prevStep={prevStep}
+                />
+            );
+        case 5:
+            return (
+                <Note
+                    getNote={noteHandler}
+                    nextStep={nextStep}
+                    prevStep={prevStep}
+                />
+            );
+        case 6:
+            return (
+                <Overview
+                    setOverview={overviewHandler}
                     nextStep={nextStep}
                     prevStep={prevStep}
                 />

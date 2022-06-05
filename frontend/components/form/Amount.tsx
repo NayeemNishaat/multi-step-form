@@ -1,9 +1,4 @@
 import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-
-type Inputs = {
-    amount: number;
-};
 
 export default function Amount({
     getAmount,
@@ -15,21 +10,18 @@ export default function Amount({
     prevStep: React.MouseEventHandler;
 }) {
     const [error, setError] = useState(false);
-    const [data, setData] = useState({ amount: 0 });
+    const [data, setData] = useState({ amount: "0" });
 
-    const { handleSubmit } = useForm<Inputs>();
+    const onSubmit = () => {
+        if (data.amount.toString().replaceAll(",", "").length > 8)
+            return setError(true);
 
-    const onSubmit: SubmitHandler<Inputs> = () => {
-        if (data.amount.toString().length > 8) return setError(true);
         getAmount(data);
         nextStep();
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mx-auto max-w-sm py-10 text-left"
-        >
+        <form onSubmit={onSubmit} className="mx-auto max-w-sm py-10 text-left">
             <div>
                 <label className="block" htmlFor="date">
                     Amount (BDT)
@@ -51,9 +43,13 @@ export default function Amount({
                             +Number(e.target.value).toFixed(2) < 0
                                 ? +Number(e.target.value).toFixed(2) * -1
                                 : Number(e.target.value).toFixed(2)
-                        ).toLocaleString("en-US", { useGrouping: true });
+                        ).toLocaleString("en-US", {
+                            useGrouping: true,
+                            minimumFractionDigits: 2
+                        });
+
                         setData({
-                            amount: +e.target.value.replaceAll(",", "")
+                            amount: e.target.value
                         });
                     }}
                 />
