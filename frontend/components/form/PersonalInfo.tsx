@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import cryptojs from "crypto-js";
+import { encrypt, decrypt } from "../../lib/crypto";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -22,15 +22,9 @@ export default function PersonalInfo({
     } = useForm<Inputs>();
 
     useEffect(() => {
-        const storedPersonalInfo = localStorage.getItem("personalInfo");
-        if (!StereoPannerNode) return;
+        const parsedPersonalInfo = decrypt("personalInfo");
 
-        const decryptedPersonalInfo = cryptojs.AES.decrypt(
-            storedPersonalInfo || "",
-            "secret"
-        ).toString(cryptojs.enc.Utf8);
-
-        const parsedPersonalInfo = JSON.parse(decryptedPersonalInfo);
+        if (!parsedPersonalInfo) return;
 
         setValue("name", parsedPersonalInfo.name, {
             shouldValidate: true
@@ -42,12 +36,8 @@ export default function PersonalInfo({
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         getPersonalInfo(data);
 
-        const personalInfo = cryptojs.AES.encrypt(
-            JSON.stringify(data),
-            "secret"
-        ).toString();
+        encrypt(data, "personalInfo");
 
-        localStorage.setItem("personalInfo", personalInfo);
         nextStep();
     };
 

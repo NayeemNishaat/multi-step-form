@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { encrypt, decrypt } from "../../lib/crypto";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -21,12 +21,28 @@ export default function LocationInfo({
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        setValue
     } = useForm<Inputs>();
+
+    useEffect(() => {
+        const parsedLocationInfo = decrypt("locationInfo");
+
+        if (!parsedLocationInfo) return;
+
+        setValue("from", parsedLocationInfo.from, {
+            shouldValidate: true
+        });
+
+        setValue("to", parsedLocationInfo.to);
+    });
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         if (data.from === data.to) return setSame(true);
         getLocationInfo(data);
+
+        encrypt(data, "locationInfo");
+
         nextStep();
     };
 
