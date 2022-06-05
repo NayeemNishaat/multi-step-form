@@ -42,7 +42,11 @@ const Home: NextPage = () => {
         }
         setStep(step + 1);
     };
-    const prevStep = () => setStep(step - 1);
+    const prevStep = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        setStep(step - 1);
+    };
 
     const personalInfoHandler = (personinfo: {}) =>
         setData({ ...data, ...personinfo });

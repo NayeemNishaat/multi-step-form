@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { encrypt, decrypt } from "../../lib/crypto";
 
 export default function Amount({
     getAmount,
@@ -12,11 +13,18 @@ export default function Amount({
     const [error, setError] = useState(false);
     const [data, setData] = useState({ amount: "0" });
 
+    useEffect(() => {
+        const parsedAmount = decrypt("amount");
+        setData(parsedAmount);
+    }, []);
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (data.amount.toString().replaceAll(",", "").length > 8)
+        if (data.amount.toString().replaceAll(",", "").length > 11)
             return setError(true);
+
+        encrypt(data, "amount");
 
         getAmount(data);
         nextStep();
@@ -32,6 +40,8 @@ export default function Amount({
                     className="border"
                     type="text"
                     required
+                    value={data.amount}
+                    onChange={(e) => setData({ amount: e.target.value })}
                     onFocus={(e) => {
                         const value = e.target.value;
                         e.target.type = "number";
