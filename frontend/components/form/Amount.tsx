@@ -15,14 +15,14 @@ export default function Amount({
     prevStep: React.MouseEventHandler;
 }) {
     const [error, setError] = useState(false);
-    const [amount, setAmount] = useState({ amount: 0 });
+    const [data, setData] = useState({ amount: 0 });
 
     const { handleSubmit } = useForm<Inputs>();
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<Inputs> = () => {
+        if (data.amount.toString().length > 8) return setError(true);
         getAmount(data);
-        // nextStep();
+        nextStep();
     };
 
     return (
@@ -52,6 +52,9 @@ export default function Amount({
                                 ? +Number(e.target.value).toFixed(2) * -1
                                 : Number(e.target.value).toFixed(2)
                         ).toLocaleString("en-US", { useGrouping: true });
+                        setData({
+                            amount: +e.target.value.replaceAll(",", "")
+                        });
                     }}
                 />
             </div>
