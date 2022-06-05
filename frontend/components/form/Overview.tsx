@@ -46,7 +46,11 @@ export default function Overview({
                 <br />
                 To: {data.to}
                 <br />
-                Date: {data.date}
+                Date:{" "}
+                {new Date(data.date)
+                    .toISOString()
+                    .split("T")[0]
+                    .replaceAll("-", "/")}
                 <br />
                 Time: {data.time}
                 <br />
