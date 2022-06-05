@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import cryptojs from "crypto-js";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -16,11 +17,37 @@ export default function PersonalInfo({
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        setValue
     } = useForm<Inputs>();
+
+    useEffect(() => {
+        const storedPersonalInfo = localStorage.getItem("personalInfo");
+        if (!StereoPannerNode) return;
+
+        const decryptedPersonalInfo = cryptojs.AES.decrypt(
+            storedPersonalInfo || "",
+            "secret"
+        ).toString(cryptojs.enc.Utf8);
+
+        const parsedPersonalInfo = JSON.parse(decryptedPersonalInfo);
+
+        setValue("name", parsedPersonalInfo.name, {
+            shouldValidate: true
+        });
+
+        setValue("gender", parsedPersonalInfo.gender);
+    }, []);
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         getPersonalInfo(data);
+
+        const personalInfo = cryptojs.AES.encrypt(
+            JSON.stringify(data),
+            "secret"
+        ).toString();
+
+        localStorage.setItem("personalInfo", personalInfo);
         nextStep();
     };
 
@@ -36,7 +63,9 @@ export default function PersonalInfo({
                 <input
                     id="name"
                     className="border"
-                    {...register("name", { required: true, deps: "fsg" })}
+                    {...register("name", {
+                        required: true
+                    })}
                 />
             </div>
 
