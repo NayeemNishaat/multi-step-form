@@ -30,9 +30,7 @@ export default function LocationInfo({
 
         if (!parsedLocationInfo) return;
 
-        setValue("from", parsedLocationInfo.from, {
-            shouldValidate: true
-        });
+        setValue("from", parsedLocationInfo.from);
 
         setValue("to", parsedLocationInfo.to);
     });
